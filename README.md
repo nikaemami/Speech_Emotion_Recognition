@@ -311,3 +311,322 @@ The Learning curve after dimension reduction:
 ![My Image](images/15.png)
 
 We did some more investigation regarding the **evaluation metrics**, which can be seen in the Jupyter notebook uploaded above.
+
+<h2> &nbsp;Unsupervised Learning</h2>
+
+**Unsupervised learning** is a machine learning technique in which models are not supervised using training dataset. Instead, models itself find the hidden patterns and insights from the given data. In fact, Unsupervised machine learning is the process of inferring underlying hidden patterns from historical data. Within such an approach, a machine learning model tries to find any similarities, differences, patterns, and structure in data by itself.
+
+In this project we used different clustering methods. Clustering analysis is an unsupervised learning method that separates the data points into several specific bunches or groups, such that the data points in the same groups have similar properties and data points in different groups have different properties in some sense. There are several supervised learning methods, in this project we implemented the models of **DBSCAN** and **HDBSCAN**, **Kmeans**, and **GMM**.
+
+Here is a brief explanation of each of the methods named above:
+
+<h4> &nbsp;1. DBSCAN and HDBSCAN:</h4>
+
+Density-Based Spatial Clustering of Applications with Noise (DBSCAN) is a base algorithm for density-based clustering. It can discover clusters of different shapes and sizes from a large amount of data, which is containing noise and outliers.
+
+The DBSCAN algorithm uses two parameters:
+
+**minPts:** The minimum number of points (a threshold) clustered together for a region to be considered dense.
+
+**eps (ε):** A distance measure that will be used to locate the points in the neighborhood of any point.
+
+<h4> &nbsp;2. Kmeans:</h4>
+
+K-means is an algorithm for exclusive clustering, also known as partitioning or segmentation. It puts the data points into the predefined number of clusters known as K. Each data item then gets assigned to the nearest cluster center, called **centroids**.
+
+<h4> &nbsp;3. GMM:</h4>
+
+Gaussian Mixture Models (GMMs) is an algorithm used in probabilistic clustering. Since the mean or variance is unknown, the models assume that there is a certain number of Gaussian distributions, each representing a separate cluster. The algorithm is basically utilized to decide which cluster a particular data point belongs to.
+
+
+<h4> &nbsp;Implementation of different unsupervised learning methods using scikit library functions in Google Colab: </h4>
+
+By using the scikit library we implement each of the mentioned models above and measure the accuracy of each.
+
+First, we import the needed libraries.
+
+Here are the methods for classifying the dataset based on gender:
+
+<h4>DBSCAN:</h4>
+
+First, we find the best epsilon to put in the DBSCAN algorithm:
+
+```ruby
+nearest_neighbors = NearestNeighbors(n_neighbors=11)
+neighbors = nearest_neighbors.fit(features)
+distances, indices = neighbors.kneighbors(features)
+distances = np.sort(distances[:,10], axis=0)
+```
+
+We see the results as below, so we put epsilon equal to 33 in the following code.
+
+![My Image](images/17.png)
+
+```ruby
+dbscan = DBSCAN(eps = 33, min_samples = 124).fit(features) 
+dbscan_labels = dbscan.labels_
+```
+
+We see the results as below:
+
+![My Image](images/18.png)
+
+So, the **DBSCAN** algorithm puts the data into 2 clusters.
+
+We then implement a model with HDBSCAN algorithm. The difference between DBSCAN and HDBSCAN algorithms is that HDBSCAN is basically a DBSCAN implementation for varying epsilon values and therefore only needs the minimum cluster size as single input parameter. Unlike DBSCAN, this allows to it find clusters of variable densities without having to choose a suitable distance threshold first. However, there are cases where we could still benefit from the use of an epsilon threshold.
+
+<h4>HDBSCAN:</h4>
+
+Unlike DBSCAN, we can set the cluster size to the values we want.
+
+The code and result for cluster size equal to 2:
+
+```ruby
+Hdbscan2 = hdbscan.HDBSCAN(min_cluster_size = 2, min_samples = 10).fit(features) 
+hdbscan2_labels = Hdbscan2.labels_
+```
+
+![My Image](images/19.png)
+
+For cluster size equal to 4:
+
+![My Image](images/20.png)
+
+For cluster size equal to 10:
+
+![My Image](images/21.png)
+
+As we see from the above plots, the clustering for 2 clusters has the best results. We will evaluate these models with different evaluation metrics later on this report.
+
+<h4>Kmeans Algorithm:</h4>
+
+The code and result for cluster size equal to 2:
+
+```ruby
+Kmeans2_model = KMeans(n_clusters= 2, random_state= 42)
+Kmeans2_pred = Kmeans2_model.fit_predict(features)
+```
+
+![My Image](images/22.png)
+
+For cluster size equal to 4:
+
+![My Image](images/23.png)
+
+For cluster size equal to 10:
+
+![My Image](images/24.png)
+
+As we see from the above plots, the clustering for 2 and 4 clusters have better results than the 10 clusters. We will evaluate these models with different evaluation metrics later on this report.
+
+<h4>GMM algorithm:</h4>
+
+The code and result for cluster size equal to 2:
+
+```ruby
+GMM2_model = GaussianMixture(n_components=2)
+GMM2_pred = GMM2_model.fit_predict(features)
+```
+
+![My Image](images/25.png)
+
+The code for cluster size equal to 4:
+
+![My Image](images/26.png)
+
+The code for cluster size equal to 10:
+
+![My Image](images/27.png)
+
+Now we need to evaluate all the models above.
+
+When implementing a clustering algorithm for a dataset with no such target to aim for, an accuracy score is not possible. We therefore need to look for other types of measurement that give us an indication of performance. The most common is the distinctness of the clusters created.
+
+Three important factors by which clustering can be evaluated are: **Clustering tendency**, **optimal number of clusters**, **clustering quality**. 
+
+Clustering quality has both extrinsic and intrinsic measures.
+
+**Extrinsic measures** are the measures which require ground truth labels. Examples are **Adjusted Rand index**, **Mutual-information based scores**, **Homogeneity**, **Completeness and V-measure**.
+
+**Intrinsic measures** are the measures that don’t require ground truth labels. Some of these measures are **Silhouette Coefficient**, **Calinski-Harabasz index**, and **Davies-Bouldin index**.
+
+We start from calculating the intrinsic measures.
+
+<h4>Silhouette Coefficient</h4>
+
+This score is between -1 and 1, where the higher the score, the more well defined and distinct the clusters are.
+
+![My Image](images/13.png)
+
+As we see, the highest Silhouette scores are for DBSCAN, Kmeans of 2 clusters and Kmeans of 4 clusters.
+ 
+<h4>Calisnki-Harabasz score</h4>
+
+Like the Silhouette Coefficient, the higher the score, the more well-defined the clusters are. This score has no bound, meaning that there is no acceptable or good value, and must be tracked throughout the development of the model.
+
+![My Image](images/14.png)
+
+As we see, the highest Calisnki-Harabasz scores are for Kmeans of 2 clusters, Kmeans of 4 clusters, and Kmeans of 10 clusters.
+
+<h4>Davies-Bouldin score</h4>
+
+This score measures the similarity of the clusters, meaning that the lower the score the better the separation there is between the clusters.
+
+![My Image](images/15.png)
+
+As we see the lowest Davies-Bouldin scores are for Kmeans of 2 clusters, HDBSCAN, and Kmeans of 4 clusters.
+ 
+Now we continue by calculating the extrinsic measures.
+
+<h4>adjusted rand index</h4>
+
+![My Image](images/23.png)
+
+as we see the highest rand indices are for GMM of 2 clusters, HDBSCAN, and Kmeans of 4 clusters.
+ 
+<h4>Mutual Information</h4>
+
+![My Image](images/16.png)
+
+As we see, the highest mutual information scores are for Kmeans of 4 clusters, GMM of 2 clusters, and HDBSCAN.
+
+<h4>Homogenity Score</h4>
+
+![My Image](images/17.png)
+
+As we see, the highest homogeneity scores are for GMM of 2 clusters, HDBSCAN and Kmeans of 2 clusters.
+
+<h4>V-measure Score</h4>
+
+![My Image](images/18.png)
+
+As we see, the highest v-measure scores are for GMM of 2 clusters, HDBSCAN of 2 clusters, and Kmeans of 4 clusters.
+
+From what we see from the scatter plots of the different models and different types of scores that we evaluated, the best results are for Kmeans algorithms in general, specifically Kmeans of number of clusters equal to 2 and 4. Other different clustering methods that put num of clusters equal to 2 have also good results, including DBSCAN and HDBSCAN, and GMM of 2 clusters.
+
+We also take the 3 algorithms for number of clusters equal to 2, and perform dimension reduction on the data with PCA algorithm, and compare with the previous results:
+
+![My Image](images/19.png)
+
+<h4>DBSCAN:</h4>
+
+![My Image](images/24.png)
+
+<h4>DBSCAN:</h4>
+
+![My Image](images/24.png)
+
+As we see, the Silhouette score is higher than before, but Calinski-Harabasz score and Davies-Bouldin scores are lower than before. Overall conclusion from the plot itself, is that without clustering the separation of classes was better.
+
+<h4>KMEANS FOR 2 CLUSTERS:</h4>
+
+![My Image](images/25.png)
+
+As we see, the Silhouette score and Calinski-Harabasz score are higher than before, and Davies Bouldin score is lower than before. Looking at the plots, both models with and without PCA are good clustering models, but the second one is a little better.
+
+<h4>GMM FOR 2 CLUSTERS:</h4>
+
+![My Image](images/26.png)
+
+as we see, the Silhouette score and Calinski Harabasz score are higher than before, and Davies Bouldin score is lower than before. Looking at the plots, both models with and without PCA are good clustering models but the second one is a little better.
+
+Now we repeat the steps above for the second set of features, which were developed as explained above. We have 384 features, by applying PCA we reduce the dimensions to 14.
+
+The results are as below:
+
+<h4>DBSCAN:</h4>
+
+![My Image](images/27.png)
+
+<h4>HDBSCAN FOR n=2:</h4>
+
+![My Image](images/28.png)
+
+<h4>HDBSCAN FOR n=4:</h4>
+
+![My Image](images/29.png)
+
+<h4>HDBSCAN FOR n=10:</h4>
+
+![My Image](images/30.png)
+
+As we see from the plots, the HDBSCAN has the best results for 2 clusters, and by increasing the number of clusters to 4 and 10, the model can not classify the data well, and only produces about 3 main clusters as seen in the plots.
+
+<h4>Kmeans for n=2:</h4>
+
+![My Image](images/31.png)
+
+<h4>Kmeans for n=4:</h4>
+
+![My Image](images/32.png)
+
+<h4>Kmeans for n=10:</h4>
+
+![My Image](images/33.png)
+
+As we see from the plots the classifier works better than the one with previous features in Kmeans models. In all 3 models, the classifier has classified the data to the desired number of cluster well.
+
+<h4>GMM for n=2:</h4>
+
+![My Image](images/34.png)
+
+<h4>GMM for n=4:</h4>
+
+![My Image](images/35.png)
+
+<h4>GMM for n=10:</h4>
+
+![My Image](images/36.png)
+
+As we see from the plots, the model acts almost good for n=2,4 but doesn’t produce the desired number of clusters when n=10.
+
+Now we use the same evaluation metrics explained above the compare the results of our different models:
+
+<h3>The Intrinsic Measures:</h3>
+
+<h4>Silouhette Scores:</h4>
+
+![My Image](images/37.png)
+
+The highest Silouhette Scores are for kmeans of 2, kmeans of 4, and GMM of 2, with highest score of 0.4 which is higher than the results from previous features.
+
+<h4>Calinski-Harabasz Scores:</h4>
+
+![My Image](images/38.png)
+
+The highest Calinski-Harabasz Scores are for kmeans of 2, kmeans of 4, and GMM of 2, with highest score of 14935 which is higher than the results from previous features.
+
+<h4>David-Bouldin Scores:</h4>
+
+![My Image](images/39.png)
+
+The lowest David-Bouldin Scores are for dbscan, kmeans of 2, and kmeans of 4, with lowest score of 0.026 which is lower than the results from previous features.
+
+<h3>The Extrinsic Measures:</h3>
+
+<h4>Adjusted Rand Indices:</h4>
+
+![My Image](images/40.png)
+
+The highest Adjusted Rand Scores are for dbscan, Kmeans of 10, and Kmeans of 4, with highest score of 4.26 which is higher than the results from previous features.
+
+<h4>Mutual Information Scores:</h4>
+
+![My Image](images/41.png)
+
+The highest Mutual Information Scores are for GMM of 10, kmeans of 10, and kmeans of 4, with highest score of 0.23 which is higher than the results from previous features.
+
+<h4>Homogenity Scores: Scores:</h4>
+
+![My Image](images/42.png)
+
+The highest Homogenity Scores are for GMM of 10, Kmeans of 10, and Kmeans of 4, with highest score of 0.1 which is higher than the results from previous features.
+
+<h4>V-measure Scores:</h4>
+
+![My Image](images/43.png)
+
+The highest V-measure Scores are for GMM of 10, Kmeans of 10, and Kmeans of 4, with highest score of 0.1 which is higher than the results from previous features.
+
+So overall, we can conclude that the results are better with the second set of features in all the implemented models of different clustering methods.
+
