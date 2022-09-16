@@ -77,49 +77,8 @@ the tempo-based counterpart of the harmony-based chromagrams, cyclic tempograms 
 The corresponding code is as follows:
 
 ```ruby
-def Extract_Data_First_Feature(data_path, voice_path):
-    emotions = []
-    features = []
-    loaded_data = []
-    Counter = 0
-    datas = Read_CSV(data_path)
-    datas['voice id'] = datas['voice id'].astype('str') + '.wav'
-    os.chdir(voice_path)
-    for file in os.listdir():           
-      if file in datas['voice id'].values and file not in loaded_data:
-          loaded_data.append(file)
-          try:
-            feature = Extract_Third_Feature(file)
-            features.append(feature)
-            index = datas[datas['voice id'] == os.path.basename(file)].index[0]
-            emotion = Emotions[datas['emotionID'][index]]
-            emotions.append(emotion)
-          except Exception as e:
-            print(e)
-    return features, emotions
-```
-
-```ruby
-def Extract_Data_Second_Feature(data_path, voice_path):
-    emotions = []
-    features = []
-    loaded_data = []
-    Counter = 0
-    datas = Read_CSV(data_path)
-    datas['voice id'] = datas['voice id'].astype('str') + '.wav'
-    os.chdir(voice_path)
-    for file in os.listdir():           
-      if file in datas['voice id'].values and file not in loaded_data:
-          loaded_data.append(file)
-          try:
-            feature = Extract_Third_Feature(file)
-            features.append(feature)
-            index = datas[datas['voice id'] == os.path.basename(file)].index[0]
-            emotion = Emotions[datas['emotionID'][index]]
-            emotions.append(emotion)
-          except Exception as e:
-            print(e)
-    return features, emotions
+def Extract_Data_First_Feature(data_path, voice_path)
+def Extract_Data_Second_Feature(data_path, voice_path)
 ```
 
 We also implemented a shuffle algorithm to make our model more rebust:
