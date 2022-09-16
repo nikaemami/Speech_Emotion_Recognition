@@ -7,26 +7,7 @@ In supervised machine learning algorithms, a **labelled training** dataset is us
 
 There are several supervised learning methods. In this project we implemented the models of **SVM, Logistic Regression, KNN,** and **MLP (Neural Networks)**.
 
-Here is a brief explanation of each of the methods named above:
-
-<h4> &nbsp;1. Logistic Regression:</h4>
-
-LR helps in finding the probability that a new instance belongs to a certain class. Since it is a probability, the outcome lies between 0 and 1. Therefore, to use the LR as a binary classifier, a threshold needs to be assigned to differentiate two classes.
-
-<h4> &nbsp;2. Support Vector Machine (SVM):</h4>
-
-Support vector machine (SVM) algorithm can classify both linear and non-linear data. It first maps each data item into an n-dimensional feature space where n is the number of features. It then identifies the hyperplane that separates the data items into two classes while maximizing the marginal distance for both classes and minimizing the classification errors.
-To perform the classification, we then need to find the hyperplane that differentiates the two classes by the maximum margin.
-
-<h4> &nbsp;3. K-Nearest Neighbor:</h4>
-
-The K-nearest neighbor (KNN) algorithm is one of the simplest and earliest classification algorithms. The KNN algorithm does not require to consider probability values. The ‘K’ is the KNN algorithm is the number of nearest neighbors considered to take ‘vote’ from. The selection of different values for ‘K’ can generate different classification results for the same sample object.
-
-<h4> &nbsp;4. MLP (Neural Networks):</h4>
-
-Neural Networks are a set of machine learning algorithms which are inspired by the functioning of the neural networks of human brain. Likewise, NN algorithms can be represented as an interconnected group of nodes. The output of one node goes as input to another node for subsequent processing according to the interconnection. Nodes are normally grouped into a matrix called layer depending on the transformation they perform. Nodes and edges have weights that enable to adjust signal strengths of communication which can be amplified or weakened through repeated training. Based on the training and subsequent adaption of the matrices, node and edge weights, NNs can make a prediction for the test data.
-
-<h4> &nbsp;Implementation of different supervised learning methods using scikit library functions in Google Colab: </h4>
+<h4>&nbsp;Implementation of different supervised learning methods using scikit library functions: </h4>
 
 In the previous parts of this project, we extracted some features from our initial dataset (voices from different genders, emotions and text IDs). Now with having different features from about 17000 samples, and labels for emotions and genders for each sample, by using the scikit library we implement each of the mentioned models above and measure the accuracy of each.
 
@@ -88,10 +69,6 @@ def Shuffle(data, labels)
 ```
 
 <h4>Train-Test Split:</h4>
-
-The train-test split procedure is used to estimate the performance of machine learning algorithms when they are used to make predictions on data not used to train the model. It is a fast and easy procedure to perform, the results of which allows us to compare the performance of machine learning algorithms for the predictive modeling problem.
-
-In this project, after extracting the features and labels, first we split the data into test and train sets, and then implement the supervised learning methods on the split data as mentioned later in the report.
 
 Finally, we put the features and emotions together, and split the data into train and test sets.
 
@@ -194,9 +171,7 @@ We plot **ROC Curves** and **Learning Curves** for all 4 of the models. The resu
 
 <h2>Dimension Reduction:</h2>
 
-The number of input variables or features for a dataset is referred to as its dimensionality. Dimensionality reduction refers to techniques that reduce the number of input variables in a dataset. More input features often make a predictive modeling task more challenging to model, more generally referred to as the curse of dimensionality. High-dimensionality statistics and dimensionality reduction techniques are often used for data visualization.
-
-In this project, we used the PCA method for implementing the dimension reduction. The most common approach to dimensionality reduction is called principal components analysis or PCA. PCA helps us to identify patterns in data based on the correlation between features. It aims to find the directions of maximum variance in high-dimensional data and projects it onto a new subspace with equal or fewer dimensions than the original one. The orthogonal axes (principal components) of the new subspace can be interpreted as the directions of maximum variance given the constraint that the new feature axes are orthogonal to each other.
+In this project, we used the PCA method for implementing the dimension reduction. PCA helps us to identify patterns in data based on the correlation between features. It aims to find the directions of maximum variance in high-dimensional data and projects it onto a new subspace with equal or fewer dimensions than the original one.
 
 ```ruby
 from sklearn.decomposition import PCA
@@ -272,8 +247,6 @@ The Learning curve after dimension reduction:
 We did some more investigation regarding the **evaluation metrics**, which can be seen in the Jupyter notebook uploaded above.
 
 <h2> &nbsp;Unsupervised Learning</h2>
-
-**Unsupervised learning** is a machine learning technique in which models are not supervised using training dataset. Instead, models itself find the hidden patterns and insights from the given data. In fact, Unsupervised machine learning is the process of inferring underlying hidden patterns from historical data. Within such an approach, a machine learning model tries to find any similarities, differences, patterns, and structure in data by itself.
 
 In this project we used different clustering methods. Clustering analysis is an unsupervised learning method that separates the data points into several specific bunches or groups, such that the data points in the same groups have similar properties and data points in different groups have different properties in some sense. There are several supervised learning methods, in this project we implemented the models of **DBSCAN** and **HDBSCAN**, **Kmeans**, and **GMM**.
 
