@@ -454,51 +454,166 @@ We start from calculating the intrinsic measures.
 
 <h4>Silhouette Coefficient</h4>
 
-This score is between -1 and 1, where the higher the score, the more well defined and distinct the clusters are.
+This score is between -1 and 1, where the higher the score, the more well defined and distinct the clusters are. The code corresponding to this metric(for dbscan for instance):
 
-![My Image](images/13.png)
+```ruby
+metrics.silhouette_score(features,dbscan_labels)
+```
+
+The results:
+
+```
+silhouette score of dbscan: 0.28480473473081136
+silhouette score of hdbscan 2: -0.036434168163789166
+silhouette score of hdbscan 4: -0.034726678505026
+silhouette score of hdbscan 10: 0.16306882711458648
+silhouette score of kmeans 2: 0.2847176600287628
+silhouette score of kmeans 4: 0.1896206009691554
+silhouette score of kmeans 10: 0.10948630543611307
+silhouette score of GMM 2: 0.09910263590870982
+silhouette score of GMM 4: -0.006219543998652198
+silhouette score of GMM 10: -0.07276504025055822
+```
 
 As we see, the highest Silhouette scores are for DBSCAN, Kmeans of 2 clusters and Kmeans of 4 clusters.
  
 <h4>Calisnki-Harabasz score</h4>
 
-Like the Silhouette Coefficient, the higher the score, the more well-defined the clusters are. This score has no bound, meaning that there is no acceptable or good value, and must be tracked throughout the development of the model.
+Like the Silhouette Coefficient, the higher the score, the more well-defined the clusters are. This score has no bound, meaning that there is no acceptable or good value, and must be tracked throughout the development of the model. The code corresponding to this metric(for dbscan for instance):
 
-![My Image](images/14.png)
+```ruby
+metrics.calinski_harabasz_score(features,dbscan_labels)
+```
+
+```
+calinski harabasz score of dbscan: 2998.0390602501043
+calinski harabasz score of hdbscan 2: 424.94116870181324
+calinski harabasz score of hdbscan 4: 388.4098079172661
+calinski harabasz score of hdbscan 10: 961.0191902267044
+calinski harabasz score of kmeans 2: 9201.838922850844
+calinski harabasz score of kmeans 4: 5886.817015205034
+calinski harabasz score of kmeans 10: 3157.621357627711
+calinski harabasz score of GMM 2: 2356.642133715847
+calinski harabasz score of GMM 4: 899.3276383209715
+calinski harabasz score of GMM 10: 477.028641364578
+```
 
 As we see, the highest Calisnki-Harabasz scores are for Kmeans of 2 clusters, Kmeans of 4 clusters, and Kmeans of 10 clusters.
 
 <h4>Davies-Bouldin score</h4>
 
-This score measures the similarity of the clusters, meaning that the lower the score the better the separation there is between the clusters.
+This score measures the similarity of the clusters, meaning that the lower the score the better the separation there is between the clusters. This score has no bound, meaning that there is no acceptable or good value, and must be tracked throughout the development of the model. The code corresponding to this metric(for dbscan for instance):
 
-![My Image](images/15.png)
+```ruby
+metrics.davies_bouldin_score(features,dbscan_labels)
+```
+
+```
+davies bouldin score of dbscan: 1.6336997476543926
+davies bouldin score of hdbscan 2: 1.5231242358494455
+davies bouldin score of hdbscan 4: 1.3769497878386594
+davies bouldin score of hdbscan 10: 1.6806300722700183
+davies bouldin score of kmeans 2: 1.2852571156938792
+davies bouldin score of kmeans 4: 1.5740225167219135
+davies bouldin score of kmeans 10: 1.8348467424439607
+davies bouldin score of GMM 2: 2.4990362917528923
+davies bouldin score of GMM 4: 6.659902754116131
+davies bouldin score of GMM 10: 5.650554898248412
+```
 
 As we see the lowest Davies-Bouldin scores are for Kmeans of 2 clusters, HDBSCAN, and Kmeans of 4 clusters.
  
-Now we continue by calculating the extrinsic measures.
+Now we continue by calculating the **extrinsic measures**.
 
 <h4>adjusted rand index</h4>
 
-![My Image](images/23.png)
+The code corresponding to this metric(for dbscan for instance):
 
-as we see the highest rand indices are for GMM of 2 clusters, HDBSCAN, and Kmeans of 4 clusters.
+```ruby
+metrics.adjusted_rand_score(genders,dbscan_labels)
+```
+
+```
+rand index of dbscan: 0.01460115950154463
+rand index of hdbscan 2: 0.02951996431899755
+rand index of hdbscan 2: 0.050799873452305896
+rand index of hdbscan 2: 0.02541355941770397
+rand index of kmeans 2: 0.009089499243896296
+rand index of kmeans 4: 0.02129346124346133
+rand index of kmeans 10: 0.005656728145904376
+rand index of GMM 2: 0.056964875164928964
+rand index of GMM 4: 0.0072834213263010044
+rand index of GMM 10: 0.0036994556474662524
+```
+
+As we see the highest rand indices are for GMM of 2 clusters, HDBSCAN, and Kmeans of 4 clusters.
  
 <h4>Mutual Information</h4>
 
-![My Image](images/16.png)
+The code corresponding to this metric(for dbscan for instance):
+
+```ruby
+metrics.mutual_info_score(genders,dbscan_labels)
+```
+
+```
+mutual information score of dbscan: 0.010980997390407782
+mutual information score of hdbscan 2: 0.018745841763565255
+mutual information score of hdbscan 4: 0.050799873452305896
+mutual information score of hdbscan 10: 0.02541355941770397
+mutual information score of kmeans 2: 0.00435183992582544
+mutual information score of kmeans 4: 0.03346738199051055
+mutual information score of kmeans 10: 0.03403679708649348
+mutual information score of GMM 2: 0.028407201359370582
+mutual information score of GMM 4: 0.011490972970172472
+mutual information score of GMM 10: 0.02008988025118535
+```
 
 As we see, the highest mutual information scores are for Kmeans of 4 clusters, GMM of 2 clusters, and HDBSCAN.
 
 <h4>Homogenity Score</h4>
 
-![My Image](images/17.png)
+The code corresponding to this metric(for dbscan for instance):
+
+```ruby
+metrics.homogeneity_score(genders,dbscan_labels)
+```
+
+```
+homogenity score of dbscan: 0.0158561760263728
+homogenity score of hdbscan 2: 0.027068339623253786
+homogenity score of hdbscan 4: 0.04226229446864987
+homogenity score of hdbscan 10: 0.023976978661123985
+homogenity score of kmeans 2: 0.006283904589829145
+homogenity score of kmeans 4: 0.02414170285445999
+homogenity score of kmeans 10: 0.014748817101755225
+homogenity score of GMM 2: 0.041019004845976904
+homogenity score of GMM 4: 0.008289015705895178
+homogenity score of GMM 10: 0.008705342299627715
+```
 
 As we see, the highest homogeneity scores are for GMM of 2 clusters, HDBSCAN and Kmeans of 2 clusters.
 
 <h4>V-measure Score</h4>
 
-![My Image](images/18.png)
+The code corresponding to this metric(for dbscan for instance):
+
+```ruby
+metrics.v_measure_score(features,dbscan_labels)
+```
+
+```
+v-measure score of dbscan: 0.0158561760263728
+v-measure score of hdbscan 2: 0.027068339623253786
+v-measure score of hdbscan 4: 0.04226229446864987
+v-measure score of hdbscan 10: 0.023976978661123985
+v-measure score of kmeans 2: 0.006283904589829145
+v-measure score of kmeans 4: 0.02414170285445999
+v-measure score of kmeans 10: 0.014748817101755225
+v-measure score of GMM 2: 0.041019004845976904
+v-measure score of GMM 4: 0.008289015705895178
+v-measure score of GMM 10: 0.008705342299627715
+```
 
 As we see, the highest v-measure scores are for GMM of 2 clusters, HDBSCAN of 2 clusters, and Kmeans of 4 clusters.
 
@@ -506,29 +621,47 @@ From what we see from the scatter plots of the different models and different ty
 
 We also take the 3 algorithms for number of clusters equal to 2, and perform dimension reduction on the data with PCA algorithm, and compare with the previous results:
 
-![My Image](images/19.png)
+```ruby
+pca = PCA(n_components = 0.95)
+pca.fit(features)
+reduced_features = pca.transform(features)
+```
 
 <h4>DBSCAN:</h4>
 
-![My Image](images/24.png)
+![My Image](images/28.png)
 
-<h4>DBSCAN:</h4>
-
-![My Image](images/24.png)
+```ruby
+silhouette score of dbscan: 0.34714669659475655
+calinski harabasz score of dbscan: 1511.5645001753876
+davies bouldin score of dbscan: 1.4823861630682738
+```
 
 As we see, the Silhouette score is higher than before, but Calinski-Harabasz score and Davies-Bouldin scores are lower than before. Overall conclusion from the plot itself, is that without clustering the separation of classes was better.
 
 <h4>KMEANS FOR 2 CLUSTERS:</h4>
 
-![My Image](images/25.png)
+![My Image](images/29.png)
+
+```ruby
+silhouette score of kmeans 2: 0.29936761998398076
+calinski harabasz score of kmeans 2: 9972.451517431065
+davies bouldin score of kmeans 2: 1.227230226316242
+```
 
 As we see, the Silhouette score and Calinski-Harabasz score are higher than before, and Davies Bouldin score is lower than before. Looking at the plots, both models with and without PCA are good clustering models, but the second one is a little better.
 
 <h4>GMM FOR 2 CLUSTERS:</h4>
 
-![My Image](images/26.png)
+![My Image](images/30.png)
 
-as we see, the Silhouette score and Calinski Harabasz score are higher than before, and Davies Bouldin score is lower than before. Looking at the plots, both models with and without PCA are good clustering models but the second one is a little better.
+```ruby
+silhouette score of GMM 2: 0.1388377597378705
+calinski harabasz score of GMM 2: 3020.6025068001786
+davies bouldin score of GMM 2: 2.1777109026744514
+```
+
+As we see, the Silhouette score and Calinski Harabasz score are higher than before, and Davies Bouldin score is lower than before. Looking at the plots, both models with and without PCA are good clustering models but the second one is a little better.
 
 Now we repeat the steps above for the second set of features, which were developed as explained above. We have 384 features, by applying PCA we reduce the dimensions to 14.
 
@@ -536,47 +669,47 @@ The results are as below:
 
 <h4>DBSCAN:</h4>
 
-![My Image](images/27.png)
+![My Image](images/31.png)
 
 <h4>HDBSCAN FOR n=2:</h4>
 
-![My Image](images/28.png)
+![My Image](images/32.png)
 
 <h4>HDBSCAN FOR n=4:</h4>
 
-![My Image](images/29.png)
+![My Image](images/33.png)
 
 <h4>HDBSCAN FOR n=10:</h4>
 
-![My Image](images/30.png)
+![My Image](images/34.png)
 
 As we see from the plots, the HDBSCAN has the best results for 2 clusters, and by increasing the number of clusters to 4 and 10, the model can not classify the data well, and only produces about 3 main clusters as seen in the plots.
 
 <h4>Kmeans for n=2:</h4>
 
-![My Image](images/31.png)
+![My Image](images/35.png)
 
 <h4>Kmeans for n=4:</h4>
 
-![My Image](images/32.png)
+![My Image](images/36.png)
 
 <h4>Kmeans for n=10:</h4>
 
-![My Image](images/33.png)
+![My Image](images/37.png)
 
 As we see from the plots the classifier works better than the one with previous features in Kmeans models. In all 3 models, the classifier has classified the data to the desired number of cluster well.
 
 <h4>GMM for n=2:</h4>
 
-![My Image](images/34.png)
+![My Image](images/38.png)
 
 <h4>GMM for n=4:</h4>
 
-![My Image](images/35.png)
+![My Image](images/39.png)
 
 <h4>GMM for n=10:</h4>
 
-![My Image](images/36.png)
+![My Image](images/40.png)
 
 As we see from the plots, the model acts almost good for n=2,4 but doesn’t produce the desired number of clusters when n=10.
 
@@ -586,19 +719,52 @@ Now we use the same evaluation metrics explained above the compare the results o
 
 <h4>Silouhette Scores:</h4>
 
-![My Image](images/37.png)
+```
+silhouette score of dbscan: 0.24809462888333075
+silhouette score of hdbscan 2: 0.06221021575625356
+silhouette score of hdbscan 4: -0.24070582274955551
+silhouette score of hdbscan 10: -0.041688940069919606
+silhouette score of kmeans 2: 0.40125791069604405
+silhouette score of kmeans 4: 0.2546726609159781
+silhouette score of kmeans 10: 0.1666509234059923
+silhouette score of GMM 2: 0.2530010439150373
+silhouette score of GMM 4: 0.038913229377365355
+silhouette score of GMM 10: -0.0584968786912401
+```
 
 The highest Silouhette Scores are for kmeans of 2, kmeans of 4, and GMM of 2, with highest score of 0.4 which is higher than the results from previous features.
 
 <h4>Calinski-Harabasz Scores:</h4>
 
-![My Image](images/38.png)
+```
+calinski harabasz score of dbscan: 506.22646770134423
+calinski harabasz score of hdbscan 2: 95.50745729940762
+calinski harabasz score of hdbscan 4: 169.6274564202286
+calinski harabasz score of hdbscan 10: 619.1605227317172
+calinski harabasz score of kmeans 2: 14935.36689669014
+calinski harabasz score of kmeans 4: 12039.959023890058
+calinski harabasz score of kmeans 10: 7249.290878138621
+calinski harabasz score of GMM 2: 7936.10808511462
+calinski harabasz score of GMM 4: 3885.4652519578317
+calinski harabasz score of GMM 10: 1852.0968794135556
+```
 
 The highest Calinski-Harabasz Scores are for kmeans of 2, kmeans of 4, and GMM of 2, with highest score of 14935 which is higher than the results from previous features.
 
 <h4>David-Bouldin Scores:</h4>
 
-![My Image](images/39.png)
+```
+davies bouldin score of dbscan: 5.026752775634968
+davies bouldin score of hdbscan 2: 3.1198778623799113
+davies bouldin score of hdbscan 4: 2.163204942329579
+davies bouldin score of hdbscan 10: 2.930793266609374
+davies bouldin score of kmeans 2: 0.9410759092395956
+davies bouldin score of kmeans 4: 1.1683782190311085
+davies bouldin score of kmeans 10: 1.4289886345000964
+davies bouldin score of GMM 2: 1.3092177215329284
+davies bouldin score of GMM 4: 2.117127532543442
+davies bouldin score of GMM 10: 3.313212799235283
+```
 
 The lowest David-Bouldin Scores are for dbscan, kmeans of 2, and kmeans of 4, with lowest score of 0.026 which is lower than the results from previous features.
 
@@ -606,25 +772,69 @@ The lowest David-Bouldin Scores are for dbscan, kmeans of 2, and kmeans of 4, wi
 
 <h4>Adjusted Rand Indices:</h4>
 
-![My Image](images/40.png)
+```
+rand index of dbscan: 4.265433675148219e-05
+rand index of hdbscan 2: -0.0001646094791631494
+rand index of hdbscan 4: 0.0045720711853102555
+rand index of hdbscan 10: 0.005766064787364491
+rand index of kmeans 2: 0.0025009058334804395
+rand index of kmeans 4: 0.009991732055262341
+rand index of kmeans 10: 0.02544958849468978
+rand index of GMM 2: 0.004395630051311511
+rand index of GMM 4: 0.009013527155037896
+rand index of GMM 10: 0.06036364054380597
+```
 
 The highest Adjusted Rand Scores are for dbscan, Kmeans of 10, and Kmeans of 4, with highest score of 4.26 which is higher than the results from previous features.
 
 <h4>Mutual Information Scores:</h4>
 
-![My Image](images/41.png)
+```
+mutual information score of dbscan: 0.0012584796445544166
+mutual information score of hdbscan 2: 0.001742693938171119
+mutual information score of hdbscan 4: 0.0045720711853102555
+mutual information score of hdbscan 10: 0.005766064787364491
+mutual information score of kmeans 2: 0.0009033827559828955
+mutual information score of kmeans 4: 0.017297041990934903
+mutual information score of kmeans 10: 0.11151861717221759
+mutual information score of GMM 2: 0.0018491823109499372
+mutual information score of GMM 4: 0.01389310789852527
+mutual information score of GMM 10: 0.23223063359894802
+```
 
 The highest Mutual Information Scores are for GMM of 10, kmeans of 10, and kmeans of 4, with highest score of 0.23 which is higher than the results from previous features.
 
 <h4>Homogenity Scores: Scores:</h4>
 
-![My Image](images/42.png)
+```
+homogenity score of dbscan: 0.0018172005747941334
+homogenity score of hdbscan 2: 0.0025163890729882014
+homogenity score of hdbscan 4: 0.003107895377083114
+homogenity score of hdbscan 10: 0.0037946179327212792
+homogenity score of kmeans 2: 0.0013044530918992089
+homogenity score of kmeans 4: 0.012477224783362781
+homogenity score of kmeans 10: 0.048323221598496856
+homogenity score of GMM 2: 0.002670154557443912
+homogenity score of GMM 4: 0.010021796228526314
+homogenity score of GMM 10: 0.10063012485198787
+```
 
 The highest Homogenity Scores are for GMM of 10, Kmeans of 10, and Kmeans of 4, with highest score of 0.1 which is higher than the results from previous features.
 
 <h4>V-measure Scores:</h4>
 
-![My Image](images/43.png)
+```
+v-measure score of dbscan: 0.0018172005747941334
+v-measure score of hdbscan 2: 0.0025163890729882014
+v-measure score of hdbscan 4: 0.003107895377083114
+v-measure score of hdbscan 10: 0.0037946179327212792
+v-measure score of kmeans 2: 0.0013044530918992089
+v-measure score of kmeans 4: 0.012477224783362781
+v-measure score of kmeans 10: 0.048323221598496856
+v-measure score of GMM 2: 0.002670154557443912
+v-measure score of GMM 4: 0.010021796228526314
+v-measure score of GMM 10: 0.10063012485198787
+```
 
 The highest V-measure Scores are for GMM of 10, Kmeans of 10, and Kmeans of 4, with highest score of 0.1 which is higher than the results from previous features.
 
